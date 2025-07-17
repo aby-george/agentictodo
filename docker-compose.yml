@@ -1,0 +1,36 @@
+version: '3.9'
+services:
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - "8000:8000"
+    depends_on:
+      - task-runner
+  task-runner:
+    build: ./task-runner
+    ports:
+      - "8001:8001"
+    depends_on:
+      - notification-agent
+      - sync-agent
+      - db
+  notification-agent:
+    build: ./notification-agent
+    ports:
+      - "8002:8002"
+  sync-agent:
+    build: ./sync-agent
+    ports:
+      - "8003:8003"
+  db:
+    build: ./db
+    volumes:
+      - db_data:/db
+  recommendation-agent:
+    build: ./recommendation-agent
+    ports:
+      - "8005:8005"
+    depends_on:
+      - db
+volumes:
+  db_data:
