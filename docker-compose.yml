@@ -12,16 +12,13 @@ services:
       - "8001:8001"
     depends_on:
       - notification-agent
-      - sync-agent
       - db
   notification-agent:
     build: ./notification-agent
     ports:
       - "8002:8002"
-  sync-agent:
-    build: ./sync-agent
-    ports:
-      - "8003:8003"
+    depends_on:
+      - db
   db:
     build: ./db
     volumes:
